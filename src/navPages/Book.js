@@ -11,12 +11,11 @@ const Book = () => {
     setCurrentPage(value)
   }
 
-  function inRange (x, min, max) {
+  const inRange = (x, min, max) => {
     return (x - min) * (x - max) <= 0
   }
 
   useEffect(() => {
-    console.log('page:', currentPage)
     let loadData = JSON.parse(JSON.stringify(pages1to10))
 
     // is there a better way of doing this?
@@ -28,13 +27,10 @@ const Book = () => {
         loadData = JSON.parse(JSON.stringify(pages11to20))
         break
       default:
-        console.log('defaulted')
         loadData = JSON.parse(JSON.stringify(pages1to10))
         break
     }
-    console.log('loadData', loadData)
     setPageInfo(loadData)
-    console.log('pageInfo', pageInfo)
   }, [currentPage])
 
   return (
@@ -52,18 +48,60 @@ const Book = () => {
       <Box
         sx={{
           overflowY: 'auto',
+          overflowWrap: 'break-word',
           pt: '15px',
           pb: '15px',
-          width: '90vw',
-          textAlign: 'center'
+          pl: '15px',
+          pr: '15px',
+          width: { xs: '90vw', sm: '75%', md: '67%', lg: '60%' },
+          textAlign: 'left'
         }}
       >
         {pageInfo.map((page) => {
+          const objectKeys = Object.keys(page)
+          const objectValues = Object.values(page)
+          let counter = 0
+
           return (
             page.page === currentPage &&
-            page.paragraphs.map((paragraph) => (
-              <Typography key={paragraph}>{paragraph}</Typography>
-            ))
+            objectKeys.map((key) => {
+              counter++
+              if (key.includes('paragraph')) {
+                return (
+                  <Typography key={key} sx={{ pt: '5px', pb: '5px' }}>
+                    {objectValues[counter - 1]}
+                  </Typography>
+                )
+              } else if (key.includes('title')) {
+                return (
+                  <Typography
+                    key={key}
+                    variant='h2'
+                    sx={{ pt: '5px', pb: '5px' }}
+                  >
+                    {objectValues[counter - 1]}
+                  </Typography>
+                )
+              } else if (key.includes('graph')) {
+                return (
+                  <Typography key={key} sx={{ pt: '5px', pb: '5px' }}>
+                    Insert graph here
+                  </Typography>
+                )
+              } else if (key.includes('image')) {
+                return (
+                  <Box key={key}
+                    component='img'
+                    sx={{
+                      pt: '5px',
+                      pb: '5px'
+                    }}
+                    alt='The house from the offer.'
+                    src={objectValues[counter - 1]}
+                  />
+                )
+              } else return <></>
+            })
           )
         })}
       </Box>

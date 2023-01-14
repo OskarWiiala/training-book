@@ -28,7 +28,8 @@ const Home = () => {
           <CardHeader sx={{ justifyContent: 'center' }} title={'Oskar Wiiala'}/>
         </CardContent>
         <CardContent>
-          <Typography>I am a fourth year student at Metropolia University. I specialize in Mobile Solutions, so I know my way around mobile based applications. I am most experienced with Android development and website development with React. I know Kotlin and JavaScript best, but can also do C++, C# and Swift. <br/><br/>I have also worked with back end systems, such as Rest API, GraphQL, SQL and NoSQL. I also know some cloud technologies, such as AWS and a bit of Azure.<br/><br/>I have completed many projects during my studies, including two projects made for actual customers like Nokia and ClimbStation. All projects have been done using agile development methods, such as Google Sprint and Trello. I am fluent in Finnish and English, and have mostly worked in mutlicultural teams.<br/><br/>If you wish to learn more about my projects, you can click on the Projects-tab on the top right.</Typography>
+          <Typography>This book is going to be about developing strength and hypertrophy. After reading this book you should understand training best practices, what makes a program good and nunances of training. It will <b>also</b> help motivate you into long-term lifting.
+          </Typography>
         </CardContent>
       </Card>
     </Box>

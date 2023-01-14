@@ -1,17 +1,22 @@
 [
   {
     "page": 1,
-    "paragraphs": [
-      "Hello, this is page 1 paragraph 1",
-      "Hello, this is page 1 paragraph 2",
-      "Hello, this is page 1 paragraph 3",
-      "Hello, this is page 1 paragraph 4",
-      "Hello, this is page 1 paragraph 5",
-      "Hello, this is page 1 paragraph 6",
-      "Hello, this is page 1 paragraph 7",
-      "Hello, this is page 1 paragraph 8",
-      "Hello, this is page 1 paragraph 9"
-    ]
+    "title1": "Progressive overload",
+    "paragraph1": "The broadest and simplest definition of progressive overload I can think of is simply beating your logbook. The two most common forms of progressive overload are increasing weight or increasing the amount of repetitions done in a set. In fact, these two are so common that other forms of progressive overload tend to be overlooked to the point of many beginners thinking these are the only two forms that exist. However, there are many other forms of progressive overload and this section explands more on them. ",
+    "paragraph2": "Increasing total amount of sets completed, improving form/control, slowing down eccentrics, speeding up concentrics, decreasing amount of cheat, increasing range of motion (ROM), graduating from easier variations of a lift to harder ones and completing the same amount of work in less time. These 8 often neglected forms of progressive overload can be very important to progress, longevity and enjoyment of lifting. So why are they not more talked about? ",
+    "paragraph3": "Well, the truth is that increasing weight or reps are considered more tangible, simple and potent, and pretty much everyone uses them in their training, while most of the latter forms may not be useful to all people. You see, an experienced lifter may have their form, ROM and bar speed down to a tee, making these forms of progressive overload obsolete to improve much further. However, this lifter still needs to get those +1s, A.K.A beat their logbook, which is mainly done either by increasing weight or adding reps or both. ",
+    "graph1": [50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70],
+    "paragraph4": "Improving form/control, slowing down eccentrics and improving concentric bar speed can be considered progressive overload at a micro level, eg. Microprogressions. Let’s take an example of two lifters: lifter A and Lifter B. ",
+    "paragraph5": "Lifter A has been able to add weight or reps consistently to his bench press for a couple of months now. However, for the past three training sessions involving the bench press, he has not been able to add weight or reps. Thus, lifter A has concluded he has reached a bench press plateau.",
+    "image1": "https://i.picsum.photos/id/537/200/300.jpg?hmac=LG3kZs5AdrMmsgeVOdrfP0C5KT3WmP-q5TauEZdR4vk",
+    "paragraph6": "On the other hand, lifter B is also in the same exact position. However, lifter B has filmed all his bench press sessions and takes a quick look at the videos. In the third last session, during his top set on the tenth rep, his eccentric bar speed is fairly quick, and he ends up bouncing the weight just a little bit off of his chest on the way up. The concentric bar speed takes 2 seconds. He goes for another rep, but ends up failing. ",
+    "paragraph7": "In the second last session, during his top set on the tenth rep, his eccentric bar speed is a tad bit slower, and he no longer bounces the bar off of his chest. The concentric bar speed is 1.9 seconds. He goes for another rep, but fails again.",
+    "paragraph8": "In the latest session, during his top set on the tenth rep, his eccentric bar speed is even slower, and now has a very slight pause at the bottom of the rep. The concentric bar speed is 1.8 seconds. He goes for another rep, but once again ends up failing.",
+    "paragraph9": "Conclusion? Lifter B has not yet reached a plateau. Even though the traditional forms of progressive overload such as adding weight or reps have not been achieved, progress has still clearly occcured. Therefore lifter B changes nothing about his training, but is simply more patient and gives it a few more tries. Two training sessions later, he achieves the eleventh rep.",
+    "paragraph10": "As for the other variables such as decreasing cheat, increasing ROM or changing variations based on difficulty, they are not so common in weight training with barbells, dumbbells or machines. This is because simply decreasing the weight is often the best way to keep the exercise the same. In this case, only one variable is being changed and thus progressions are clearer.",
+    "paragraph11": "However, the above mentioned forms of progressive overload are extremely common in endeavors where simply decreasing the weight is very difficult or requires specialized equipment, such as calisthenics. Think about movements like one arm pull ups, muscle ups, front levers and planches. What is more feasable, doing assisted one arm pull ups with your off hand and utilising partial reps or negatives, or building some sort of pulley mechanism with a counterweight? Also, isn’t the need of machines antithetical to one of the core tenets of calisthenics?",
+    "paragraph12": "Of course, there is nothing wrong with using machines to help with calisthenics goals. I use a pulley system with counter weights to help me with my one arm pull up training, it’s just that it’s not typical in the calisthenics culture for various reasons.",
+    "paragraph13": "That said, could those forms of progressive overload be used in training with weights? Sure, but I’d prefer something easier, like adding weight or reps."
   },
   {
     "page": 2,
