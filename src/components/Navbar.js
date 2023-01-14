@@ -1,4 +1,4 @@
-import { React, useEffect, useState, useContext } from 'react'
+import { React, useState, useContext } from 'react'
 import {
   AppBar,
   Toolbar,
@@ -26,16 +26,9 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 
 const Navbar = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
-  const [position, setPosition] = useState({ position: 'relative' })
   const { mode, toggleColorMode } = useContext(ColorModeContext)
 
   const galaxyFold = useMediaQuery('(max-width:340px)')
-
-  const navbarScrollStyle = {
-    position: 'fixed',
-    top: '0',
-    animation: 'slide-in 500ms'
-  }
 
   const drawerNavStyles = {
     display: { xs: 'block', md: 'none ' },
@@ -50,24 +43,9 @@ const Navbar = () => {
     setOpenDrawer(!openDrawer)
   }
 
-  useEffect(() => {
-    window.addEventListener('scroll', fixNavbarPosition)
-    return () => {
-      window.removeEventListener('scroll', fixNavbarPosition)
-    }
-  }, [scroll])
-
-  const fixNavbarPosition = () => {
-    if (window !== undefined) {
-      const windowHeight = window.scrollY
-      if (!window.location.href.includes('/map')) {
-        windowHeight > 10 ? setPosition(navbarScrollStyle) : setPosition({ position: 'relative' })
-      }
-    }
-  }
   return (
     <>
-      <AppBar style={position} elevation={2}>
+      <AppBar elevation={2}>
         <Toolbar
           sx={{
             display: 'flex',

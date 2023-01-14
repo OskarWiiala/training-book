@@ -17,7 +17,7 @@ const Home = () => {
         paddingBottom: '10px'
       }}
     >
-      <Card sx={{ width: { xs: '90%', sm: '65%', md: '50%', lg: '40%' }, mt: '50px' }}>
+      <Card sx={{ width: { xs: '90%', sm: '65%', md: '50%', lg: '40%' }, mt: '100px' }}>
         <CardContent sx={{ display: 'flex', flexDirection: 'row' }}>
           <CardMedia
             component='img'
