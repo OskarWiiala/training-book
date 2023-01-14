@@ -84,7 +84,7 @@ const Navbar = () => {
               text={'Book'}
               icon={<AutoStoriesIcon />}
               component={Link}
-              to='/restaurants'
+              to='/book'
             />
           </List>
           <IconButton sx={{ ml: { xs: 0.5, md: 1 } }} onClick={toggleColorMode} color="inherit">
@@ -136,7 +136,7 @@ const Navbar = () => {
               text={'Book'}
               icon={<AutoStoriesIcon />}
               component={Link}
-              to='/restaurants'
+              to='/book'
               onClick={() => setOpenDrawer(false)}
             />
           </List>
