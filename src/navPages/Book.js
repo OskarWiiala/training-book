@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Box, Pagination, Typography } from '@mui/material'
 import pages1to10 from '../pages/pages1to10.json'
 import pages11to20 from '../pages/pages11to20.json'
+import Graph from '../components/Graph'
 
 const Book = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -59,6 +60,7 @@ const Book = () => {
       >
         {pageInfo.map((page) => {
           const objectKeys = Object.keys(page)
+          console.log('objectkeys:', typeof objectKeys)
           const objectValues = Object.values(page)
           let counter = 0
 
@@ -68,9 +70,14 @@ const Book = () => {
               counter++
               if (key.includes('paragraph')) {
                 return (
-                  <Typography key={key} sx={{ pt: '5px', pb: '5px' }}>
-                    {objectValues[counter - 1]}
-                  </Typography>
+                  <Typography
+                    key={key}
+                    sx={{ pt: '5px', pb: '5px' }}
+                    variant='body1'
+                    dangerouslySetInnerHTML={{
+                      __html: objectValues[counter - 1]
+                    }}
+                  />
                 )
               } else if (key.includes('title')) {
                 return (
@@ -83,24 +90,29 @@ const Book = () => {
                   </Typography>
                 )
               } else if (key.includes('graph')) {
-                return (
-                  <Typography key={key} sx={{ pt: '5px', pb: '5px' }}>
-                    Insert graph here
-                  </Typography>
-                )
+                const data = []
+                let myCounter = 0
+                objectValues[counter - 1].forEach((element) => {
+                  data.push({ value: objectValues[counter - 1][myCounter], session: myCounter })
+                  myCounter++
+                })
+                return <Graph key={key} data={data} />
               } else if (key.includes('image')) {
                 return (
-                  <Box key={key}
+                  <Box
+                    key={key}
                     component='img'
                     sx={{
                       pt: '5px',
-                      pb: '5px'
+                      pb: '5px',
+                      width: objectValues[counter - 1].width,
+                      height: objectValues[counter - 1].height
                     }}
-                    alt='The house from the offer.'
-                    src={objectValues[counter - 1]}
+                    alt={objectValues[counter - 1].alt}
+                    src={objectValues[counter - 1].src}
                   />
                 )
-              } else return <></>
+              } else return <Box key={key} />
             })
           )
         })}
