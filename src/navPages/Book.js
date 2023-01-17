@@ -4,16 +4,46 @@ import pages1to10 from '../pages/pages1to10.json'
 import pages11to20 from '../pages/pages11to20.json'
 import Graph from '../components/Graph'
 
+/**
+ * @author Oskar Wiiala
+ * This component is used as the page where the book is placed. You can read, change pages and bookmark paragraphs
+ * @returns Book component
+ */
 const Book = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageInfo, setPageInfo] = useState([])
-  const [open, setOpen] = React.useState(false)
+
+  // Used for opening/closing success and error alerts
+  const [openSuccess, setOpenSuccess] = useState(false)
+  const [openError, setOpenError] = useState(false)
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value)
   }
 
-  const handleBookmarkAlert = (data) => {
+  useEffect(() => {
+    // scrolls to current bookmark. Is only supposed to occur when navigating here from Bookmarks.js
+    // has timeout due to elements needing to be initialized before calling the scrollIntoView() function.
+    setTimeout(() => {
+      const id = localStorage.getItem('currentBookmark')
+      if (id) {
+        const element = document.getElementById(id)
+        const executeScroll = () => element.scrollIntoView()
+        executeScroll()
+      }
+    }, 300)
+
+    // current bookmark is removed to prevent scrolling back to bookmark when refreshing page.
+    setTimeout(() => {
+      localStorage.removeItem('currentBookmark')
+    }, 1000)
+  }, [])
+
+  /**
+   * Handles bookmarking operations such as a confirm popup, setting bookmark to localStorage and opening success/error alert
+   * @param {object} data includes page and paragraph
+   */
+  const handleBookmarking = (data) => {
     console.log(data)
     if (confirm('Bookmark this paragraph?') === true) {
       try {
@@ -25,26 +55,34 @@ const Book = () => {
           }
           return element
         })
-        localStorage.setItem(`bookmark${localStorageLength + 1}`, JSON.stringify(data))
-        setOpen(true)
+        localStorage.setItem(
+          `bookmark${localStorageLength + 1}`,
+          JSON.stringify(data)
+        )
+        setOpenSuccess(true)
       } catch (e) {
+        setOpenError(true)
         console.log('bookmarking failed:', e)
       }
     }
   }
 
+  // handles closing of success/error alerts
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
 
-    setOpen(false)
+    setOpenSuccess(false)
+    setOpenError(false)
   }
 
+  // Checks the range of a number. Is used in determining if the current page is in a range of numbers.
   const inRange = (x, min, max) => {
     return (x - min) * (x - max) <= 0
   }
 
+  // determines what page it is and loads the correct JSON file based on the result
   useEffect(() => {
     let loadData = JSON.parse(JSON.stringify(pages1to10))
 
@@ -87,13 +125,32 @@ const Book = () => {
           textAlign: 'left'
         }}
       >
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar
+          open={openSuccess}
+          autoHideDuration={4500}
+          onClose={handleClose}
+        >
           <Alert
             onClose={handleClose}
             severity='success'
+            variant='filled'
             sx={{ width: '100%' }}
           >
-            This is a success message!
+            Bookmark was successful
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openError}
+          autoHideDuration={4500}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity='error'
+            variant='filled'
+            sx={{ width: '100%' }}
+          >
+            Bookmark failed
           </Alert>
         </Snackbar>
         {pageInfo.map((page) => {
@@ -108,9 +165,10 @@ const Book = () => {
               if (key.includes('paragraph')) {
                 return (
                   <Typography
+                    id={key}
                     key={key}
                     onDoubleClick={() => {
-                      handleBookmarkAlert({
+                      handleBookmarking({
                         page: currentPage,
                         paragraph: key
                       })
