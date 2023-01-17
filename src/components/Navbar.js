@@ -13,6 +13,7 @@ import { RiMenu2Line } from 'react-icons/ri'
 import CloseIcon from '@mui/icons-material/Close'
 import HomeIcon from '@mui/icons-material/Home'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
+import BookmarkIcon from '@mui/icons-material/Bookmark'
 import { Link } from 'react-router-dom'
 import NavItem from './NavItem'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
@@ -86,6 +87,12 @@ const Navbar = () => {
               component={Link}
               to='/book'
             />
+            <NavItem
+              text={'Bookmarks'}
+              icon={<BookmarkIcon />}
+              component={Link}
+              to='/bookmarks'
+            />
           </List>
           <IconButton sx={{ ml: { xs: 0.5, md: 1 } }} onClick={toggleColorMode} color="inherit">
             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -137,6 +144,13 @@ const Navbar = () => {
               icon={<AutoStoriesIcon />}
               component={Link}
               to='/book'
+              onClick={() => setOpenDrawer(false)}
+            />
+            <NavItem
+              text={'Bookmarks'}
+              icon={<BookmarkIcon />}
+              component={Link}
+              to='/bookmarks'
               onClick={() => setOpenDrawer(false)}
             />
           </List>

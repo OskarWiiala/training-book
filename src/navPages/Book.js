@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Pagination, Typography } from '@mui/material'
+import { Box, Pagination, Typography, Alert, Snackbar } from '@mui/material'
 import pages1to10 from '../pages/pages1to10.json'
 import pages11to20 from '../pages/pages11to20.json'
 import Graph from '../components/Graph'
@@ -7,9 +7,38 @@ import Graph from '../components/Graph'
 const Book = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageInfo, setPageInfo] = useState([])
+  const [open, setOpen] = React.useState(false)
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value)
+  }
+
+  const handleBookmarkAlert = (data) => {
+    console.log(data)
+    if (confirm('Bookmark this paragraph?') === true) {
+      try {
+        const localStorage1 = Object.keys(localStorage)
+        let localStorageLength = 0
+        localStorage1.map((element) => {
+          if (element.includes('bookmark')) {
+            localStorageLength++
+          }
+          return element
+        })
+        localStorage.setItem(`bookmark${localStorageLength + 1}`, JSON.stringify(data))
+        setOpen(true)
+      } catch (e) {
+        console.log('bookmarking failed:', e)
+      }
+    }
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
   }
 
   const inRange = (x, min, max) => {
@@ -58,9 +87,17 @@ const Book = () => {
           textAlign: 'left'
         }}
       >
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity='success'
+            sx={{ width: '100%' }}
+          >
+            This is a success message!
+          </Alert>
+        </Snackbar>
         {pageInfo.map((page) => {
           const objectKeys = Object.keys(page)
-          console.log('objectkeys:', typeof objectKeys)
           const objectValues = Object.values(page)
           let counter = 0
 
@@ -72,6 +109,12 @@ const Book = () => {
                 return (
                   <Typography
                     key={key}
+                    onDoubleClick={() => {
+                      handleBookmarkAlert({
+                        page: currentPage,
+                        paragraph: key
+                      })
+                    }}
                     sx={{ pt: '5px', pb: '5px' }}
                     variant='body1'
                     dangerouslySetInnerHTML={{
@@ -93,7 +136,10 @@ const Book = () => {
                 const data = []
                 let myCounter = 0
                 objectValues[counter - 1].forEach((element) => {
-                  data.push({ value: objectValues[counter - 1][myCounter], session: myCounter })
+                  data.push({
+                    value: objectValues[counter - 1][myCounter],
+                    session: myCounter
+                  })
                   myCounter++
                 })
                 return <Graph key={key} data={data} />
