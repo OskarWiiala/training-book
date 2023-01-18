@@ -13,12 +13,20 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import IconButton from '@mui/material/IconButton'
 
+/**
+ * @author Oskar Wiiala
+ * This component is used as the Bookmarks page.
+ * This component is used to display/view/delete bookmarks
+ * Viewing bookmarks takes you to the Book component, switches to the correct page and scrolls down to the correct paragraph
+ * @returns Bookmarks component
+ */
 const Bookmarks = () => {
   const allBookmarks = Object.entries(localStorage)
   const [openSuccess, setOpenSuccess] = useState(false)
   const [openError, setOpenError] = useState(false)
   const navigate = useNavigate()
 
+  // handles closing of success/error alerts
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
@@ -28,8 +36,14 @@ const Bookmarks = () => {
     setOpenError(false)
   }
 
-  const viewBookmark = (key) => {
-    localStorage.setItem('currentBookmark', key)
+  /**
+   * Stores page and paragraph data in localStorage and navigates to book page
+   * The data in localStorage is used by Book component to choose correct page and scroll down to correct paragraph
+   * @param {object} data should only contain page and paragraph key values
+   */
+  const viewBookmark = (data) => {
+    const stringifiedData = JSON.stringify(data)
+    localStorage.setItem('currentBookmark', stringifiedData)
     navigate('/book')
   }
 
@@ -132,7 +146,7 @@ const Bookmarks = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <IconButton
                     sx={{ mt: '3px', mb: '3px' }}
-                    onClick={() => viewBookmark(paragraph)}
+                    onClick={() => viewBookmark({ page, paragraph })}
                   >
                     <VisibilityIcon />
                   </IconButton>

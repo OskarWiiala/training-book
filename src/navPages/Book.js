@@ -22,16 +22,21 @@ const Book = () => {
   }
 
   useEffect(() => {
-    // scrolls to current bookmark. Is only supposed to occur when navigating here from Bookmarks.js
+    // scrolls to current bookmark on the correct page. Is only supposed to occur when navigating here from Bookmarks.js
     // has timeout due to elements needing to be initialized before calling the scrollIntoView() function.
     setTimeout(() => {
-      const id = localStorage.getItem('currentBookmark')
-      if (id) {
-        const element = document.getElementById(id)
-        const executeScroll = () => element.scrollIntoView()
-        executeScroll()
+      // Should only contain page and paragraph keys
+      const data = JSON.parse(localStorage.getItem('currentBookmark'))
+      if (data) {
+        setCurrentPage(data.page)
+        // Another timeout is needed because changing pages takes some time
+        setTimeout(() => {
+          const element = document.getElementById(data.paragraph)
+          const executeScroll = () => element.scrollIntoView()
+          executeScroll()
+        }, 100)
       }
-    }, 300)
+    }, 100)
 
     // current bookmark is removed to prevent scrolling back to bookmark when refreshing page.
     setTimeout(() => {
