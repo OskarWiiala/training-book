@@ -103,7 +103,18 @@ const Book = () => {
         loadData = JSON.parse(JSON.stringify(pages1to10))
         break
     }
+
     setPageInfo(loadData)
+
+    // Only run this if there is no current bookmark.
+    // This way viewing a bookmark does not take you back to top.
+    if (!localStorage.getItem('currentBookmark')) {
+      setTimeout(() => {
+        const element = document.getElementById('title1')
+        const executeScroll = () => element?.scrollIntoView()
+        executeScroll()
+      }, 100)
+    }
   }, [currentPage])
 
   return (
@@ -188,6 +199,7 @@ const Book = () => {
               } else if (key.includes('title')) {
                 return (
                   <Typography
+                    id={key}
                     key={key}
                     variant='h2'
                     sx={{ pt: '5px', pb: '5px' }}

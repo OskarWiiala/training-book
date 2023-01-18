@@ -22,6 +22,7 @@ import IconButton from '@mui/material/IconButton'
  */
 const Bookmarks = () => {
   const allBookmarks = Object.entries(localStorage)
+  const hasBookmarks = JSON.stringify(allBookmarks).includes('bookmark')
   const [openSuccess, setOpenSuccess] = useState(false)
   const [openError, setOpenError] = useState(false)
   const navigate = useNavigate()
@@ -87,86 +88,110 @@ const Bookmarks = () => {
         height: '95vh'
       }}
     >
-      <Snackbar
-        open={openSuccess}
-        autoHideDuration={4500}
-        onClose={handleClose}
+      <Box
+        sx={{
+          overflowY: 'auto',
+          pt: '15px',
+          pb: '15px',
+          pl: '15px',
+          pr: '15px',
+          width: {
+            xs: '80vw',
+            sm: '80vw',
+            m: '70vw',
+            l: '60vw',
+            xl: '55vw'
+          }
+        }}
       >
-        <Alert
+        <Snackbar
+          open={openSuccess}
+          autoHideDuration={4500}
           onClose={handleClose}
-          severity='success'
-          variant='filled'
-          sx={{ width: '100%' }}
         >
-          Bookmark deletion successful
-        </Alert>
-      </Snackbar>
-      <Snackbar open={openError} autoHideDuration={4500} onClose={handleClose}>
-        <Alert
+          <Alert
+            onClose={handleClose}
+            severity='success'
+            variant='filled'
+            sx={{ width: '100%' }}
+          >
+            Bookmark deletion successful
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openError}
+          autoHideDuration={4500}
           onClose={handleClose}
-          severity='error'
-          variant='filled'
-          sx={{ width: '100%' }}
         >
-          Bookmark deletion failed
-        </Alert>
-      </Snackbar>
-      {allBookmarks.map((element) => {
-        if (element[0].includes('bookmark')) {
-          const object = JSON.parse(localStorage.getItem(element[0]))
-          const page = object.page
-          const paragraph = object.paragraph
-          return (
-            <Card
-              key={element[0]}
-              sx={{
-                width: {
-                  xs: '80vw',
-                  sm: '80vw',
-                  m: '70vw',
-                  l: '60vw',
-                  xl: '55vw'
-                },
-                mt: '5px',
-                mb: '5px'
-              }}
-            >
-              <CardContent
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Box>
-                  <Typography>{element[0]}</Typography>
-                  <Typography>page: {page}</Typography>
-                  <Typography>{paragraph}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <IconButton
-                    sx={{ mt: '3px', mb: '3px' }}
-                    onClick={() => viewBookmark({ page, paragraph })}
-                  >
-                    <VisibilityIcon />
-                  </IconButton>
-                  <IconButton
-                    sx={{ mt: '3px', mb: '3px' }}
-                    onClick={() => {
-                      deleteBookmark(element[0])
+          <Alert
+            onClose={handleClose}
+            severity='error'
+            variant='filled'
+            sx={{ width: '100%' }}
+          >
+            Bookmark deletion failed
+          </Alert>
+        </Snackbar>
+        {hasBookmarks &&
+          allBookmarks.map((element) => {
+            if (element[0].includes('bookmark')) {
+              const object = JSON.parse(localStorage.getItem(element[0]))
+              const page = object.page
+              const paragraph = object.paragraph
+              return (
+                <Card
+                  key={element[0]}
+                  sx={{
+                    width: '100%',
+                    mt: '5px',
+                    mb: '5px'
+                  }}
+                >
+                  <CardContent
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between'
                     }}
                   >
-                    <DeleteIcon />
-                  </IconButton>
-                </Box>
-              </CardContent>
-            </Card>
-          )
-        } else return <Box key={element[0]}></Box>
-      })}
-      <Button variant='contained' onClick={deleteAllBookmarks}>
-        Delete all
-      </Button>
+                    <Box>
+                      <Typography>{element[0]}</Typography>
+                      <Typography>page: {page}</Typography>
+                      <Typography>{paragraph}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <IconButton
+                        sx={{ mt: '3px', mb: '3px' }}
+                        onClick={() => viewBookmark({ page, paragraph })}
+                      >
+                        <VisibilityIcon />
+                      </IconButton>
+                      <IconButton
+                        sx={{ mt: '3px', mb: '3px' }}
+                        onClick={() => {
+                          deleteBookmark(element[0])
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  </CardContent>
+                </Card>
+              )
+            } else return <Box key={element[0]}></Box>
+          })}
+        {!hasBookmarks && (
+          <Typography>
+            You have no Bookmarks. You can add bookmarks by double-clicking on
+            any paragraph while reading.
+          </Typography>
+        )}
+      </Box>
+      {hasBookmarks && (
+        <Button variant='contained' onClick={deleteAllBookmarks}>
+          Delete all
+        </Button>
+      )}
     </Box>
   )
 }
