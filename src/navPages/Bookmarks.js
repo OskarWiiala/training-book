@@ -157,11 +157,13 @@ const Bookmarks = () => {
                     }}
                   >
                     <Box>
-                      <Typography>{element[0]}</Typography>
-                      <Typography>page: {page}</Typography>
-                      <Typography>{paragraph}</Typography>
-                      <Typography>{preview}</Typography>
-                      <Typography>{note}</Typography>
+                      <Typography variant='h6'>page: {page}</Typography>
+                      <Typography
+                        dangerouslySetInnerHTML={{
+                          __html: preview
+                        }}
+                      />
+                      {note.length > 0 && <Typography sx={{ pt: '3px', fontStyle: 'italic' }}>Note: {note}</Typography>}
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                       <IconButton
