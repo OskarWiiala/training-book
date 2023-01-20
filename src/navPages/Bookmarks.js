@@ -138,6 +138,8 @@ const Bookmarks = () => {
               const object = JSON.parse(localStorage.getItem(element[0]))
               const page = object.page
               const paragraph = object.paragraph
+              const preview = object.preview
+              const note = object.note
               return (
                 <Card
                   key={element[0]}
@@ -158,6 +160,8 @@ const Bookmarks = () => {
                       <Typography>{element[0]}</Typography>
                       <Typography>page: {page}</Typography>
                       <Typography>{paragraph}</Typography>
+                      <Typography>{preview}</Typography>
+                      <Typography>{note}</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                       <IconButton
@@ -182,7 +186,7 @@ const Bookmarks = () => {
           })}
         {!hasBookmarks && (
           <Typography>
-            You have no Bookmarks. You can add bookmarks by double-clicking on
+            You have no bookmarks. You can add bookmarks by double-clicking on
             any paragraph while reading.
           </Typography>
         )}

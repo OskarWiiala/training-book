@@ -3,6 +3,8 @@ import { Box, Pagination, Typography, Alert, Snackbar } from '@mui/material'
 import pages1to10 from '../pages/pages1to10.json'
 import pages11to20 from '../pages/pages11to20.json'
 import Graph from '../components/Graph'
+import BookmarkDialog from '../components/BookmarkDialog'
+import { useDoubleTap } from 'use-double-tap'
 
 /**
  * @author Oskar Wiiala
@@ -12,10 +14,32 @@ import Graph from '../components/Graph'
 const Book = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageInfo, setPageInfo] = useState([])
+  const [openDialog, setOpenDialog] = useState(false)
+  const [bookmarkData, setBookmarkData] = useState({})
+
+  const onDoubleTap = useDoubleTap((event) => {
+    console.log('double tapped:')
+    const preview = document.getElementById(event.target.id).innerHTML.slice(0, 100) + '...'
+    setBookmarkData({
+      page: currentPage,
+      paragraph: event.target.id,
+      preview
+    })
+    setOpenDialog(true)
+  })
 
   // Used for opening/closing success and error alerts
   const [openSuccess, setOpenSuccess] = useState(false)
   const [openError, setOpenError] = useState(false)
+
+  const handleAlert = (openSuccess1, openError1) => {
+    setOpenSuccess(openSuccess1)
+    setOpenError(openError1)
+  }
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false)
+  }
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value)
@@ -43,34 +67,6 @@ const Book = () => {
       localStorage.removeItem('currentBookmark')
     }, 1000)
   }, [])
-
-  /**
-   * Handles bookmarking operations such as a confirm popup, setting bookmark to localStorage and opening success/error alert
-   * @param {object} data includes page and paragraph
-   */
-  const handleBookmarking = (data) => {
-    console.log(data)
-    if (confirm('Bookmark this paragraph?') === true) {
-      try {
-        const localStorage1 = Object.keys(localStorage)
-        let localStorageLength = 0
-        localStorage1.map((element) => {
-          if (element.includes('bookmark')) {
-            localStorageLength++
-          }
-          return element
-        })
-        localStorage.setItem(
-          `bookmark${localStorageLength + 1}`,
-          JSON.stringify(data)
-        )
-        setOpenSuccess(true)
-      } catch (e) {
-        setOpenError(true)
-        console.log('bookmarking failed:', e)
-      }
-    }
-  }
 
   // handles closing of success/error alerts
   const handleClose = (event, reason) => {
@@ -169,6 +165,12 @@ const Book = () => {
             Bookmark failed
           </Alert>
         </Snackbar>
+        <BookmarkDialog
+          isOpenDialog={openDialog}
+          handleAlert={handleAlert}
+          data={bookmarkData}
+          handleCloseDialog={handleCloseDialog}
+        />
         {pageInfo.map((page) => {
           const objectKeys = Object.keys(page)
           const objectValues = Object.values(page)
@@ -181,14 +183,9 @@ const Book = () => {
               if (key.includes('paragraph')) {
                 return (
                   <Typography
+                    {...onDoubleTap}
                     id={key}
                     key={key}
-                    onDoubleClick={() => {
-                      handleBookmarking({
-                        page: currentPage,
-                        paragraph: key
-                      })
-                    }}
                     sx={{ pt: '5px', pb: '5px' }}
                     variant='body1'
                     dangerouslySetInnerHTML={{
