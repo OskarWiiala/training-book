@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import IconButton from '@mui/material/IconButton'
+import DeleteDialog from '../components/DeleteDialog'
 
 /**
  * @author Oskar Wiiala
@@ -25,7 +26,16 @@ const Bookmarks = () => {
   const hasBookmarks = JSON.stringify(allBookmarks).includes('bookmark')
   const [openSuccess, setOpenSuccess] = useState(false)
   const [openError, setOpenError] = useState(false)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const [dialogTitle, setDialogTitle] = useState('')
+  const [deleteDialogType, setDeleteDialogType] = useState('')
+  const [bookmarkKey, setBookmarkKey] = useState('')
+
   const navigate = useNavigate()
+
+  const handleCloseDialog = () => {
+    setOpenDeleteDialog(false)
+  }
 
   // handles closing of success/error alerts
   const handleClose = (event, reason) => {
@@ -46,34 +56,6 @@ const Bookmarks = () => {
     const stringifiedData = JSON.stringify(data)
     localStorage.setItem('currentBookmark', stringifiedData)
     navigate('/book')
-  }
-
-  const deleteAllBookmarks = () => {
-    if (confirm('are you sure you want to delete all bookmarks?') === true) {
-      try {
-        const objectKeys = Object.keys(localStorage)
-        objectKeys.map((key) => {
-          if (key.includes('bookmark') || key.includes('currentBookmark')) {
-            localStorage.removeItem(key)
-          }
-          return 0
-        })
-        setOpenSuccess(true)
-      } catch (e) {
-        setOpenError(true)
-      }
-    }
-  }
-
-  const deleteBookmark = (key) => {
-    if (confirm('are you sure you want to delete this bookmark?') === true) {
-      try {
-        localStorage.removeItem(key)
-        setOpenSuccess(true)
-      } catch (e) {
-        setOpenError(true)
-      }
-    }
   }
 
   return (
@@ -140,9 +122,10 @@ const Bookmarks = () => {
               const paragraph = object.paragraph
               const preview = object.preview
               const note = object.note
+              const key = element[0]
               return (
                 <Card
-                  key={element[0]}
+                  key={key}
                   sx={{
                     width: '100%',
                     mt: '5px',
@@ -163,7 +146,11 @@ const Bookmarks = () => {
                           __html: preview
                         }}
                       />
-                      {note.length > 0 && <Typography sx={{ pt: '3px', fontStyle: 'italic' }}>Note: {note}</Typography>}
+                      {note.length > 0 && (
+                        <Typography sx={{ pt: '3px', fontStyle: 'italic' }}>
+                          Note: {note}
+                        </Typography>
+                      )}
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                       <IconButton
@@ -175,7 +162,10 @@ const Bookmarks = () => {
                       <IconButton
                         sx={{ mt: '3px', mb: '3px' }}
                         onClick={() => {
-                          deleteBookmark(element[0])
+                          setBookmarkKey(key.toString())
+                          setDialogTitle('Delete this bookmark?')
+                          setDeleteDialogType('single')
+                          setOpenDeleteDialog(true)
                         }}
                       >
                         <DeleteIcon />
@@ -192,9 +182,25 @@ const Bookmarks = () => {
             any paragraph while reading.
           </Typography>
         )}
+        <DeleteDialog
+          title={dialogTitle}
+          type={deleteDialogType}
+          bookmarkKey={bookmarkKey}
+          setOpenSuccess={setOpenSuccess}
+          setOpenError={setOpenError}
+          handleCloseDialog={handleCloseDialog}
+          isOpenDialog={openDeleteDialog}
+        />
       </Box>
       {hasBookmarks && (
-        <Button variant='contained' onClick={deleteAllBookmarks}>
+        <Button
+          variant='contained'
+          onClick={() => {
+            setDialogTitle('Delete all bookmarks?')
+            setDeleteDialogType('all')
+            setOpenDeleteDialog(true)
+          }}
+        >
           Delete all
         </Button>
       )}

@@ -18,7 +18,6 @@ const Book = () => {
   const [bookmarkData, setBookmarkData] = useState({})
 
   const onDoubleTap = useDoubleTap((event) => {
-    console.log('double tapped:')
     const preview = document.getElementById(event.target.id).innerHTML.slice(0, 100) + '...'
     setBookmarkData({
       page: currentPage,
